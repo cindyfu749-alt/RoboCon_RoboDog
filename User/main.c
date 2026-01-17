@@ -16,35 +16,11 @@ int Key_flag =0;
 ///////////////////////////////////////////////////////////////////////////////
 //以全局变量声明电机控制结构体和电机数据结构体，方便在故障时通过debug查看变量值
 MOTOR_send motor_control_clear; //电机停止
-//-------MDA存储数据后，在中断中用于电机ID判断------
-MOTOR_recv motor_feedback_data;//
-//--------------------------------------------------
-MOTOR_send motor1_control_data;   //电机1控制
-MOTOR_recv motor1_feedback_data;	 //电机1反馈
-
-MOTOR_send motor2_control_data;   //电机2控制
-MOTOR_recv motor2_feedback_data;	 //电机2反馈
-
-MOTOR_send motor3_control_data;   //电机3控制
-MOTOR_recv motor3_feedback_data;	 //电机3反馈
-
-MOTOR_send motor4_control_data;   //电机4控制
-MOTOR_recv motor4_feedback_data;	 //电机4反馈
-
-MOTOR_send motor5_control_data;   //电机5控制
-MOTOR_recv motor5_feedback_data;	 //电机5反馈
-
-MOTOR_send motor6_control_data;   //电机6控制
-MOTOR_recv motor6_feedback_data;	 //电机6反馈
-
-MOTOR_send motor7_control_data;   //电机7控制
-MOTOR_recv motor7_feedback_data;	 //电机7反馈
-
-MOTOR_send motor8_control_data;   //电机8控制
-MOTOR_recv motor8_feedback_data;	 //电机8反馈
-
-MOTOR_send motor9_control_data;   //电机8控制
-MOTOR_recv motor9_feedback_data;	 //电机8反馈
+// MDA 存储数据后，在中断中用于电机 ID 判断（临时缓冲）
+MOTOR_recv motor_feedback_data;
+// 全局数组：motor_control_data[1..Mo_Count], motor_feedback_data_arr[1..Mo_Count]
+MOTOR_send motor_control_data[Mo_Count + 1];
+MOTOR_recv motor_feedback_data_arr[Mo_Count + 1];
 uint8_t Motor_Rxflag = 0;
 //电机接收的数据
 uint8_t Motor_Rx_date = 0;
@@ -105,24 +81,9 @@ const fp32 Motor9_rang_PID_data[3] = {40.90f,0.0f,40.0f};//P,I,D值
 //pid-IMU-陀螺仪-X-方向---------------------------------------------------------
 const fp32 imu_Z_PID_data[3] = {0.0f,0.0f,0.0f};//P,I,D值
 //------------------------------------------------------------------------------
-float Motor1_speed_PID_OUT = 0;
-float Motor1_rang_PID_OUT = 0;
-float Motor2_speed_PID_OUT = 0;
-float Motor2_rang_PID_OUT = 0;
-float Motor3_speed_PID_OUT = 0;
-float Motor3_rang_PID_OUT = 0;
-float Motor4_speed_PID_OUT = 0;
-float Motor4_rang_PID_OUT = 0;
-float Motor5_speed_PID_OUT = 0;
-float Motor5_rang_PID_OUT = 0;
-float Motor6_speed_PID_OUT = 0;
-float Motor6_rang_PID_OUT = 0;
-float Motor7_speed_PID_OUT = 0;
-float Motor7_rang_PID_OUT = 0;
-float Motor8_speed_PID_OUT = 0;
-float Motor8_rang_PID_OUT = 0;
-float Motor9_speed_PID_OUT = 0;
-float Motor9_rang_PID_OUT = 0;
+// PID 输出数组（1-based 索引）
+float Motor_speed_PID_OUT[Mo_Count + 1] = {0};
+float Motor_rang_PID_OUT[Mo_Count + 1] = {0};
 //pid-IMU-陀螺仪-X-方向
 float imu_Z_PID_OUT = 0;
 ////////////////////////////////////////////////////////////////////////////////
