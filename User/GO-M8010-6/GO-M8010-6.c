@@ -55,7 +55,7 @@ int extract_data(MOTOR_recv *motor_r)
     }
     else
 		{
-	//			printf("111111111111111111111111");
+	//			printf("111111111111111111111111");z
 			  //保存数据结构体  = 接收数据结构体
         motor_r->motor_id = motor_r->motor_recv_data.mode.id;
         motor_r->mode = motor_r->motor_recv_data.mode.status;
