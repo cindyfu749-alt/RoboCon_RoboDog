@@ -20,7 +20,7 @@
  * @details 1ms 周期，处理步态时间更新和标志设置
  * @note 轻量级 - 只做整数计数，< 0.5ms
  */
-void GENERAL_TIM_IRQHandler(void)
+void GENERAL_TIM_IRQHandler(void)//定时器2
 {
     // 调用 control_task 的定时器处理
     control_task_timer_handler();

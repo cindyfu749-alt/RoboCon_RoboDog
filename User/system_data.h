@@ -72,7 +72,7 @@ extern rc rc_rc;                           ///< 解析后的 RC 数据
 
 /* ==================== 标志位 ==================== */
 
-extern uint8_t g_print_flag;               ///< 打印标志
+extern uint8_t g_print_flag;              ///< 打印标志
 extern int g_step;                         ///< 步态计数器
 extern int g_step_turn_flag;               ///< 步幅/转向标志
 extern int g_dog_jump_flag;                ///< 跳跃标志
