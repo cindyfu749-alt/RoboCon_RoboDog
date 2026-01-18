@@ -16,25 +16,9 @@
   */
 
 #include "pid.h"
-//pid结构体初始化
-pid_type_def Motor1_speed_PID;
-pid_type_def Motor1_rang_PID;
-pid_type_def Motor2_speed_PID;
-pid_type_def Motor2_rang_PID;
-pid_type_def Motor3_speed_PID;
-pid_type_def Motor3_rang_PID;
-pid_type_def Motor4_speed_PID;
-pid_type_def Motor4_rang_PID;
-pid_type_def Motor5_speed_PID;
-pid_type_def Motor5_rang_PID;
-pid_type_def Motor6_speed_PID;
-pid_type_def Motor6_rang_PID;
-pid_type_def Motor7_speed_PID;
-pid_type_def Motor7_rang_PID;
-pid_type_def Motor8_speed_PID;
-pid_type_def Motor8_rang_PID;
-pid_type_def Motor9_speed_PID;
-pid_type_def Motor9_rang_PID;
+//pid结构体初始化 - 使用 1-based 数组以便统一索引（索引 1..Mo_Count）
+pid_type_def Motor_speed_PID[Mo_Count + 1];
+pid_type_def Motor_rang_PID[Mo_Count + 1];
 //pid-IMU-陀螺仪-X-方向
 pid_type_def imu_Z_PID;
 #define LimitMax(input, max)   \

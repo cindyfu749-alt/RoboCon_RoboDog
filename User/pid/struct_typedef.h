@@ -15,6 +15,7 @@ typedef unsigned long long uint64_t;
 typedef unsigned char bool_t;
 typedef float fp32;
 typedef double fp64;
+#define Mo_Count 9
 
 
 #endif

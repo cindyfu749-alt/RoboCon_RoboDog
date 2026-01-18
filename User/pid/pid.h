@@ -66,7 +66,7 @@ typedef struct
   * @param[in]      max_iout: pid最大积分输出
   * @retval         none
   */
-extern void PID_init(pid_type_def *pid, uint8_t mode, const fp32 PID[3], fp32 max_out, fp32 max_iout);
+void PID_init(pid_type_def *pid, uint8_t mode, const fp32 PID[3], fp32 max_out, fp32 max_iout);
 
 /**
   * @brief          pid calculate 
@@ -95,23 +95,9 @@ extern fp32 PID_calc_rang(pid_type_def *pid, fp32 ref, fp32 set);
   * @retval         none
   */
 extern void PID_clear(pid_type_def *pid);
-extern pid_type_def Motor1_speed_PID;
-extern pid_type_def Motor1_rang_PID;
-extern pid_type_def Motor2_speed_PID;
-extern pid_type_def Motor2_rang_PID;
-extern pid_type_def Motor3_speed_PID;
-extern pid_type_def Motor3_rang_PID;
-extern pid_type_def Motor4_speed_PID;
-extern pid_type_def Motor4_rang_PID;
-extern pid_type_def Motor5_speed_PID;
-extern pid_type_def Motor5_rang_PID;
-extern pid_type_def Motor6_speed_PID;
-extern pid_type_def Motor6_rang_PID;
-extern pid_type_def Motor7_speed_PID;
-extern pid_type_def Motor7_rang_PID;
-extern pid_type_def Motor8_speed_PID;
-extern pid_type_def Motor8_rang_PID;
-extern pid_type_def Motor9_speed_PID;
-extern pid_type_def Motor9_rang_PID;
+// 电机速度和角度 PID，使用 1-based 数组：索引 1..Mo_Count
+extern pid_type_def Motor_speed_PID[Mo_Count + 1]; //电机速度PID
+extern pid_type_def Motor_rang_PID[Mo_Count + 1];  //电机角度PID
 extern pid_type_def imu_Z_PID;
 #endif
+ 
