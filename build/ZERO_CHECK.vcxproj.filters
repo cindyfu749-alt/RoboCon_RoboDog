@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="E:\co_robocon\RoboCon-Dog\RoboCon_RoboDog\build\CMakeFiles\795bbc8cfaf58fab9f81c6d913f64c3f\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{1AB197DD-D899-377D-8233-DB6122566850}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
