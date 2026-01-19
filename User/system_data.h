@@ -20,15 +20,15 @@
  * @brief 全局电机控制和反馈数据
  * @note 索引 0 未使用，1-9 对应电机 1-9
  */
-extern MOTOR_send g_motor_ctrl[10];        ///< 电机控制命令
-extern MOTOR_recv g_motor_fdbk[10];        ///< 电机反馈数据
-extern MOTOR_send g_motor_ctrl_clear;      ///< 电机停止命令
+extern MOTOR_send motor_ctrl[10];        ///< 电机控制命令
+extern MOTOR_recv motor_fdbk[10];        ///< 电机反馈数据
+extern MOTOR_send motor_ctrl_clear;      ///< 电机停止命令
 
 /* ==================== PID 输出数据 ==================== */
 
-extern float g_motor_speed_pid_out[10];    ///< 速度环 PID 输出 (1-9)
-extern float g_motor_angle_pid_out[10];    ///< 位置环 PID 输出 (1-9)
-extern float g_imu_z_pid_out;              ///< IMU Z 轴 PID 输出
+extern float motor_speed_pid_out[10];    ///< 速度环 PID 输出 (1-9)
+extern float motor_angle_pid_out[10];    ///< 位置环 PID 输出 (1-9)
+extern float imu_z_pid_out;              ///< IMU Z 轴 PID 输出
 
 /* ==================== 步态数据结构 ==================== */
 
@@ -41,8 +41,8 @@ typedef struct {
 } foot_track_t;
 
 /** 全局足端轨迹（4 条腿） */
-extern foot_track_t g_foot_track[4];
-
+extern foot_track_t foot_track[4];
+#define Mo_Count 9
 /**
  * @brief 关节角度数据
  * @note 索引对应关系：
@@ -51,38 +51,45 @@ extern foot_track_t g_foot_track[4];
  *  - [4,5] = 腿3 (电机6,7)
  *  - [6,7] = 腿4 (电机9,8)
  */
-extern float g_joint_angles[8];
+extern float joint_angles[8];
 
 /* ==================== 时间计数 ==================== */
 
-extern int g_time_currently;               ///< 步态内当前时间
-extern int g_time_turn;                    ///< 转向内当前时间
-extern int g_dog_init_time;                ///< 初始化计时
+extern int time_currently;               ///< 步态内当前时间
+extern int time_turn;                    ///< 转向内当前时间
+extern int dog_init_time;                ///< 初始化计时
 
 /* ==================== 电机通信 ==================== */
 
-extern int g_motor_send_id;                ///< 正在发送的电机 ID
-extern int g_motor_feedback_id;            ///< 最近接收的电机反馈 ID
-extern uint8_t g_motor_rx_flag;            ///< 电机接收标志
+extern int motor_send_id;                ///< 正在发送的电机 ID
+extern int motor_feedback_id;            ///< 最近接收的电机反馈 ID
+extern uint8_t motor_rx_flag;            ///< 电机接收标志
 
 /* ==================== RC 遥控 ==================== */
 
-extern uint8_t g_rc_raw_data[18];          ///< RC 原始数据缓冲
+extern uint8_t rc_raw_data[18];          ///< RC 原始数据缓冲
 extern rc rc_rc;                           ///< 解析后的 RC 数据
 
 /* ==================== 标志位 ==================== */
 
-extern uint8_t g_print_flag;              ///< 打印标志
-extern int g_step;                         ///< 步态计数器
-extern int g_step_turn_flag;               ///< 步幅/转向标志
-extern int g_dog_jump_flag;                ///< 跳跃标志
-extern int g_dog_jump_time;                ///< 跳跃计时
-extern int g_backflip_flag;                ///< 空翻标志
-extern int g_backflip_time;                ///< 空翻计时
+extern uint8_t print_flag;              ///< 打印标志
+extern int step;                         ///< 步态计数器
+extern int step_turn_flag;               ///< 步幅/转向标志
+extern int dog_jump_flag;                ///< 跳跃标志
+extern int dog_jump_time;    
+extern int dog_jump_time_2 ;
+extern int dog_jump_flag_2 ;
+extern int dog_rest_flag;            ///< 跳跃计时
+extern int backflip_flag;                ///< 空翻标志
+extern int backflip_time;     ///< 空翻计时
+extern int step_turn_flag;           
+extern float ttl;
+extern int Dog_Iinit ;
+extern int Dog_flag ;
 
 /* ==================== 传感器数据 ==================== */
 
-extern float g_imu_data[4][4];             ///< IMU 数据（3x3 矩阵 + 温度）
+extern float imu_data[4][4];             ///< IMU 数据（3x3 矩阵 + 温度）
 
 /* ==================== 初始化函数 ==================== */
 
