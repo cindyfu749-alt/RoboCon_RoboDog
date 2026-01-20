@@ -17,10 +17,13 @@
 *.htm
 *.lnp
 *.sct
-
+*.txt
 *.uvgui.*
 *.uvguix.*
 
+
+*.settings
+*.sin
 
 # Object, binary and map files
 *.o
@@ -41,18 +44,24 @@
 *.swo
 *.swp
 *~
+*.log
 
 # Keil/MDK project generated files
 *.lnp
 *.htm
 *.dep
 *.sct
-
+*.md
+*.json
+*.filters
 # VSCode and editor settings
 .vscode/
 .vscode/*
 .idea/
 .vscode/settings.json
+build/
+Debug/
+Release/
 
 # OS files
 .DS_Store

@@ -1,159 +1,68 @@
-# Copilot Ê¹ÓÃËµÃ÷£¨ËÄ×ã»úÆ÷¹·ÏîÄ¿£©
+# Copilot Ê¹ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
 
-## ÏîÄ¿¸ÅÀÀ
-STM32F4 Ç¶ÈëÊ½ËÄ×ã»úÆ÷¹·¿ØÖÆÏµÍ³¡£Ê¹ÓÃ ST Standard Peripheral Library¡¢Keil MDK (UV5)¡¢´®¿Ú/DMA Í¨ĞÅ¡¢Ë«»·¼¶Áª PID ¿ØÖÆ¡¢ÄæÔË¶¯Ñ§²½Ì¬Ëã·¨¡£
+## ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
+STM32F4 Ç¶ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½Ê¹ï¿½ï¿½ ST Standard Peripheral Libraryï¿½ï¿½Keil MDK (UV5)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/DMA Í¨ï¿½Å¡ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PID ï¿½ï¿½ï¿½Æ¡ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½Ñ§ï¿½ï¿½Ì¬ï¿½ã·¨ï¿½ï¿½
 
-**CMake ÅäÖÃ**: ÏîÄ¿°üº¬ CMakeLists.txt£¬Ö§³ÖÔÚ VS Code ÖĞÍêÕûµÄ IntelliSense ºÍ´úÂëµ¼º½¡£
+**CMake ï¿½ï¿½ï¿½ï¿½**: ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ CMakeLists.txtï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ VS Code ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IntelliSense ï¿½Í´ï¿½ï¿½ëµ¼ï¿½ï¿½ï¿½ï¿½
 
-## ¹¹½¨Óëµ÷ÊÔ
+## ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-### Ê¹ÓÃ Keil MDK£¨ÍÆ¼öÓÃÓÚ±àÒë/ÏÂÔØ£©
-- **IDE**: Keil MDK UV5 ¡ú [project/RVMDK(V5)/MOD_F427IIH.uvprojx](project/RVMDK(V5)/MOD_F427IIH.uvprojx)
-- **Ä¿±êĞ¾Æ¬**: STM32F427IIH£¨Flash: 2MB, SRAM: 256KB£©
-- **Æô¶¯ÓëÏÂÔØ**: Build ¡ú Á¬½Ó ST-Link µ÷ÊÔÆ÷ ¡ú Download + Debug
+### Ê¹ï¿½ï¿½ Keil MDKï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½Ø£ï¿½
+- **IDE**: Keil MDK UV5 ï¿½ï¿½ [project/RVMDK(V5)/MOD_F427IIH.uvprojx](project/RVMDK(V5)/MOD_F427IIH.uvprojx)
+- **Ä¿ï¿½ï¿½Ğ¾Æ¬**: STM32F427IIHï¿½ï¿½Flash: 2MB, SRAM: 256KBï¿½ï¿½
+- **ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½**: Build ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ST-Link ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Download + Debug
 
-### VS Code IntelliSense ÅäÖÃ£¨ÓÃÓÚ´úÂëä¯ÀÀºÍµ¼º½£©
-1. °²×°À©Õ¹: **C/C++ (Microsoft)**, **CMake**, **CMake Tools**
-2. ´ò¿ªÏîÄ¿£¬CMake »á×Ô¶¯ÅäÖÃ£¨¼û `.vscode/settings.json` ÖĞ `cmake.configureOnOpen: true`£©
-3. ±àÒëÊ±ÔËĞĞ CMake: `Ctrl+Shift+P` ¡ú `CMake: Configure`
-4. ¹¦ÄÜ:
-   - **Go to Definition**: `Ctrl+Click` »ò `F12` Ìø×ªµ½¶¨Òå
-   - **Go to References**: `Shift+F12` ²é¿´ËùÓĞÒıÓÃ
-   - **Find All Definitions**: `Ctrl+Shift+O` ·ûºÅËÑË÷
+### VS Code IntelliSense ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½
+1. ï¿½ï¿½×°ï¿½ï¿½Õ¹: **C/C++ (Microsoft)**, **CMake**, **CMake Tools**
+2. ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½CMake ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ `.vscode/settings.json` ï¿½ï¿½ `cmake.configureOnOpen: true`ï¿½ï¿½
+3. ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ CMake: `Ctrl+Shift+P` ï¿½ï¿½ `CMake: Configure`
+4. ï¿½ï¿½ï¿½ï¿½:
+   - **Go to Definition**: `Ctrl+Click` ï¿½ï¿½ `F12` ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   - **Go to References**: `Shift+F12` ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   - **Find All Definitions**: `Ctrl+Shift+O` ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-## ºËĞÄ¼Ü¹¹
+## ï¿½ï¿½ï¿½Ä¼Ü¹ï¿½
 
-### ³õÊ¼»¯Ë³Ğò£¨ÔÚ User/main.c ÖĞ£©
-1. **´®¿Ú & DMA ÅäÖÃ**: USART1 (RCÒ£¿Ø) + USART6 (µç»úÃüÁî) + DMA Ë«»º³å½ÓÊÕ
-2. **ÏµÍ³Ê±ÖÓ**: `HSE_SetSysClock(12, 336, 2, 7)` ¡ú 168 MHz
-3. **ÉÏµçµÈ´ı**: `while(tim_t < 100000)` È·±£Ó²¼şÎÈ¶¨
-4. **PID ³õÊ¼»¯**: `PID_Init()` Îª 9 ¸öµç»ú³õÊ¼»¯Ë«»· PID (ËÙ¶È + Î»ÖÃ)
-5. **¶¨Ê±Æ÷Æô¶¯**: `TIMx_Configuration()` ²úÉú 1ms ÖÜÆÚÖĞ¶Ï
-6. **Ö÷Ñ­»·**: 1ms ÖĞ¶Ï´¥·¢²½Ì¬¸üĞÂ£¬Ö÷Ñ­»·ÂÖÑ¯·¢ËÍÊı¾İ£¨ÎŞ×èÈûµÈ´ı£©
+### ï¿½ï¿½Ê¼ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ User/main.c ï¿½Ğ£ï¿½
+1. **ï¿½ï¿½ï¿½ï¿½ & DMA ï¿½ï¿½ï¿½ï¿½**: USART1 (RCÒ£ï¿½ï¿½) + USART6 (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) + DMA Ë«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+# AI Coding Agent Guide â€” RoboCon_RoboDog
 
-### 1ms ÖĞ¶ÏµÄ¹Ø¼üÖ°Ôğ (GENERAL_TIM_IRQHandler)
-Î»ÖÃ: [User/stm32f4xx_it.c](User/stm32f4xx_it.c#L174)
-- ¸üĞÂ²½Ì¬Ê±¼ä¼ÆÊı (`time_currently`, `time_turn`)
-- ÅĞ¶Ï²½Ì¬ÇĞ»»µã (`Dog_flag = 0` ´¥·¢Ö÷Ñ­»·µÄ²½Ì¬¼ÆËã)
-- ¸üĞÂÌøÔ¾/¿Õ·­¼ÆÊ±
-- **±ØĞëÇáÁ¿¼¶**£ºÖ»×öÕûÊı¼ÆÊı£¬²»Éæ¼°¸¡µãÔËËã»ò´®¿Ú²Ù×÷
+ç›®æ ‡ï¼šè®© AI ä»£ç ä»£ç†å¿«é€Ÿã€å®‰å…¨åœ°åœ¨æœ¬ä»“åº“ä¸­å®ç°å°æ”¹åŠ¨ï¼ˆPID è°ƒå‚ã€æ­¥æ€é€»è¾‘ã€DMA/CRC ä¿®å¤ï¼‰å¹¶éµå¾ªä»£ç çº¦å®šã€‚
 
-### Ö÷Ñ­»·µÄÖ´ĞĞÁ÷
-[User/main.c](User/main.c#L165)
-```
-while(1):
-  ©À©¤ rc_rc_date()              # RC Í¨µÀ½âÎö
-  ©À©¤ Motor_Key()               # °´¼ü¿ØÖÆµç»úÆôÍ£
-  ©À©¤ IMU_pid_count(0.0f)       # IMU ÍÓÂİÒÇ PID£¨ZÖá£©
-  ©¸©¤ if(step):                 # step ÓÉÖĞ¶Ï set£¨³õÖµ 0£©
-      ©À©¤ foot_track()          # ×ã¶Ë¹ì¼££¨±´Èû¶ûÇúÏß£©
-      ©À©¤ counter_motion()      # ÄæÔË¶¯Ñ§¼ÆËãÄ¿±ê¹Ø½Ú½Ç¶È
-      ©À©¤ Motor_pid_count()     # ËÙ¶È+Î»ÖÃ PID ¿ØÖÆ
-      ©À©¤ Motor_data_update()   # ½« PID Êä³öĞ´Èëµç»úÃüÁî½á¹¹Ìå
-      ©¸©¤ step = 0              # Çå³ı±êÖ¾µÈ´ıÏÂÒ»¸öÖĞ¶ÏÖÜÆÚ
-  ©¸©¤ Motor_date_send()         # ÂÖÁ÷·¢ËÍµç»úÃüÁîµ½ USART6£¨º¬Ğ¡ÑÓ³Ù·ÀÒç³ö£©
-```
+å¿«é€Ÿæ¦‚è§ˆ
+- ä¸»å¾ªç¯ä¸æ§åˆ¶æµï¼š`User/main.c` ä¸ºé«˜å±‚æ­¥éª¤ä¸è¡Œä¸ºè°ƒåº¦ï¼ˆRC è¯»å– â†’ æ­¥æ€/è®¡æ—¶ â†’ PID è®¡ç®— â†’ ä¸²å£å‘é€ï¼‰ã€‚
+- å®æ—¶/ä¸­æ–­ï¼š1ms å®šæ—¶å™¨ç”± `User/tim/bsp_general_tim.c` é…ç½®ï¼ŒISR åœ¨ `User/stm32f4xx_it.c` çš„ `GENERAL_TIM_IRQHandler`ï¼ˆæ—¶é—´æ•æ„Ÿï¼Œå¤„ç†å¿…é¡» <0.5msï¼‰ã€‚
+- ç”µæœºé€šä¿¡ï¼šç”µæœºæŠ¥æ–‡ç»“æ„åœ¨ [User/GO-M8010-6/GO-M8010-6.h](User/GO-M8010-6/GO-M8010-6.h)ï¼Œå‘é€å‰è°ƒç”¨ `modify_data()`ï¼Œæ¥æ”¶åç”¨ `extract_data()` åš CRC æ ¡éªŒï¼ˆå®ç°è§ `User/GO-M8010-6/GO-M8010-6.c`ï¼‰ã€‚
+- PID å®ç°ï¼šé¡¹ç›®ä½¿ç”¨ä½ç½®/å¢é‡ PIDï¼ˆ`User/pid/pid.c`ï¼‰ï¼Œç”µæœº PID æ•°ç»„åœ¨ `User/main.c` å®šä¹‰å¹¶ç”± `User/bsp_ma_su/bsp_ma_su.c` çš„ `PID_Init()` åˆå§‹åŒ–ã€‚
 
-## ¹Ø¼üÈ«¾ÖÊı¾İ½á¹¹£¨1-based Ë÷Òı£©
+é‡è¦çº¦å®šï¼ˆåŠ¡å¿…éµå®ˆï¼‰
+- Motor ç´¢å¼•æ˜¯ 1-basedï¼šPID æ•°ç»„ä¸ `MOTOR_send`/`MOTOR_recv` ä½¿ç”¨ `1..Mo_Count`ï¼ˆç¤ºä¾‹åœ¨ `User/main.c`ã€`User/bsp_ma_su/bsp_ma_su.c`ï¼‰ã€‚
+- æ‰€æœ‰ç”µæœºæ•°æ®é€šè¿‡ `MOTOR_send`/`MOTOR_recv` ç»“æ„å¾ªç¯å‘é€/æ¥æ”¶ï¼ˆ`GO-M8010-6.h`ï¼‰ã€‚ä¿®æ”¹æ§åˆ¶å‘½ä»¤åè°ƒç”¨ `modify_data(&motorX_control_data)`ã€‚
+- USART DMA å‡ä½¿ç”¨å¾ªç¯æ¨¡å¼ï¼ˆcircular DMAï¼‰ï¼Œæ¥æ”¶ä¸­æ–­è§£æåç”± `extract_data()` å†™å…¥ `motor_feedback_data`ï¼Œä¸­æ–­å¤„ç†åæŒ‰ `motor_id` åˆ†å‘ï¼ˆè§ `User/stm32f4xx_it.c` çš„ `Motor_DMA_IRQHandler`ï¼‰ã€‚
+- æ—¶åº/ä¼˜å…ˆçº§ï¼šä¸è¦åœ¨ `GENERAL_TIM_IRQHandler` åšè€—æ—¶æˆ–é˜»å¡è°ƒç”¨ï¼›NVIC ä¼˜å…ˆçº§çº¦å®šä¸º TIM > USART6_DMA > RC_DMAï¼ˆåœ¨ `bsp_general_tim.c`/`stm32f4xx_it.c` å¯è§ï¼‰ã€‚
 
-### µç»úÊı¾İ£¨9 ¸ö¹Ø½Ú£¬ÀıÈçµç»ú 2~9£©
-[User/main.c](User/main.c#L19-L23) ¶¨Òå
-```c
-MOTOR_send   motor2_control_data, motor3_control_data, ..., motor9_control_data;
-MOTOR_recv   motor2_feedback_data, motor3_feedback_data, ..., motor9_feedback_data;
-```
-- **MOTOR_send**: Î»ÖÃÄ¿±ê¡¢ËÙ¶È¡¢Á¦¾ØÏŞÖÆ£¨ÓÉ PID Êä³ö¸³Öµ£©
-- **MOTOR_recv**: µ±Ç°Î»ÖÃ¡¢ËÙ¶È¡¢ÎÂ¶È¡¢´íÎóÂë£¨Í¨¹ı USART6 DMA ½ÓÊÕ£©
-- Ïê¼û: [User/GO-M8010-6/GO-M8010-6.h](User/GO-M8010-6/GO-M8010-6.h)
+æ„å»ºä¸è°ƒè¯•
+- Keil MDK UV5 å·¥ç¨‹ï¼š`project/RVMDK(V5)/MOD_F427IIH.uvprojx`ï¼Œå¸¸ç”¨ç”¨äºä¸‹è½½ + ST-Link è°ƒè¯•ã€‚
+- VSCode/CMakeï¼šä»“åº“åŒ…å« `CMakeLists.txt`ï¼›åœ¨ VSCode ä¸­ä½¿ç”¨ `C/C++`, `CMake`, `CMake Tools` æ‰©å±•å¹¶è¿è¡Œ `CMake: Configure`ï¼ˆ`.vscode/settings.json` æ¨è `cmake.configureOnOpen: true`ï¼‰ã€‚
+- æ—¥å¿—/è°ƒè¯•è¾“å‡ºï¼šä½¿ç”¨ä¸²å£ printf å®ç°ï¼ˆ`User/usart/bsp_debug_usart.h`ï¼‰ï¼Œåœ¨è°ƒè¯•å‰å¯ç”¨ `printf_flag` é¿å…é¢‘ç¹è¾“å‡ºå¡ä¸­æ–­ã€‚
 
-### PID ²ÎÊıÓëÊä³ö
-[User/main.c](User/main.c#L26-L79) ¶¨Òå
-```c
-const fp32 Motor2_speed_PID_data[3] = {0.01f, 0.0006f, 0.015f};  // [Kp, Ki, Kd]
-const fp32 Motor2_rang_PID_data[3] = {40.90f, 0.0f, 40.0f};
-float Motor2_speed_PID_OUT, Motor2_rang_PID_OUT;
-```
-**Á½¼¶¼¶Áª**: Î»ÖÃ»· PID ¡ú ËÙ¶ÈÖ¸Áî ¡ú ËÙ¶È»· PID ¡ú Á¦¾ØÊä³ö
+å¸¸è§æ”¹åŠ¨ç¤ºä¾‹ï¼ˆç›´æ¥å¯ç”¨ï¼‰
+- è°ƒæ•´æŸç”µæœº PIDï¼šç¼–è¾‘ `User/main.c` ä¸­å¯¹åº”çš„ `const fp32 MotorN_speed_PID_data[3]`ï¼Œç„¶åç¡®è®¤ `PID_Init()` åœ¨ `User/bsp_ma_su/bsp_ma_su.c` ä½¿ç”¨è¯¥æ•°ç»„è¿›è¡Œåˆå§‹åŒ–ã€‚
+- å¢åŠ /ä¿®æ”¹æ­¥æ€ï¼šä¿®æ”¹ `foot_track()` è°ƒç”¨ä½ç½®åœ¨ `User/main.c` çš„ `if(step)` åˆ†æ”¯ï¼Œæ­¥æ€è®¡ç®—ç»“æœé€šè¿‡ `counter_motion()` è½¬æ¢ä¸ºç”µæœºç›®æ ‡è§’åº¦ã€‚
+- ä¿®å¤ç”µæœº CRC/å¸§é—®é¢˜ï¼šæ£€æŸ¥ `User/GO-M8010-6/GO-M8010-6.c` ä¸­ `modify_data()`/`extract_data()` çš„å®ç°ï¼Œå¹¶é€šè¿‡ `bsp_usart_dma.c` çš„ DMA é…ç½®éªŒè¯ `DMA_BufferSize` ä¸å®é™…å¸§é•¿ä¸€è‡´ã€‚
 
-### ×ã¶Ë¹ì¼£Óë×ªÏò
-```c
-float foot_track_x1, foot_track_y1;  // 4 ÌõÍÈµÄ×ã¶Ë×ø±ê (x,y)
-float foot_track_x2, foot_track_y2;
-// ...
-float rang__2, rang__3, ..., rang__9;  // 9 ¸ö¹Ø½ÚµÄÄ¿±ê½Ç¶È
-int time_currently;   // ²½Ì¬ÄÚÊ±¼ä [0, time_speed)
-int time_turn;        // ×ªÏòÄÚÊ±¼ä [0, 400)
-int step_turn_flag;   // ²½·ù/×ªÏòÇĞ»»±êÖ¾
-```
+æŸ¥é˜…å…¥å£ï¼ˆä¼˜å…ˆçº§æŒ‰é‡è¦æ€§æ’åºï¼‰
+- ä¸»å¾ªç¯ï¼š[User/main.c](User/main.c)
+- PID æ ¸å¿ƒï¼š[User/pid/pid.c](User/pid/pid.c)
+- PID/ç”µæœºåˆå§‹åŒ–ä¸æ›´æ–°ï¼š[User/bsp_ma_su/bsp_ma_su.c](User/bsp_ma_su/bsp_ma_su.c)
+- å®šæ—¶å™¨è®¾ç½®ï¼ˆ1msï¼‰ï¼š[User/tim/bsp_general_tim.c](User/tim/bsp_general_tim.c)
+- ä¸­æ–­ä¸ ISRï¼š[User/stm32f4xx_it.c](User/stm32f4xx_it.c)
+- ç”µæœºåè®®/ç»“æ„ï¼š[User/GO-M8010-6/GO-M8010-6.h](User/GO-M8010-6/GO-M8010-6.h)
+- USART/DMA è®¾ç½®ï¼š[User/bsp_usart_dma/bsp_usart_dma.c](User/bsp_usart_dma/bsp_usart_dma.c)
 
-### RC ½ÓÊÕ£¨Ò£¿ØÊı¾İ£©
-```c
-extern uint8_t RC[18];           // USART1 DMA ½ÓÊÕ»º³å
-extern struct {...} rc_rc;       // ½âÎöºóµÄÍ¨µÀÖµ¡¢¿ª¹Ø×´Ì¬
-```
+æ“ä½œæ³¨æ„äº‹é¡¹ï¼ˆå®‰å…¨ä¸éªŒè¯ï¼‰
+- ä¿®æ”¹ ISRã€NVIC æˆ– DMA æ—¶ï¼Œå…ˆåœ¨æœ¬åœ°é€šè¿‡é™æ€é˜…è¯»å¹¶å°èŒƒå›´ä¿®æ”¹ï¼Œé¿å…å¢åŠ é˜»å¡æˆ–æ”¹å˜ä¼˜å…ˆçº§é¡ºåºã€‚
+- æ›´æ”¹ PID å¸¸é‡åçº¿ä¸‹å…ˆç”¨ä½é¢‘ç‡æ‰“å°éªŒè¯ï¼ˆ`printf_flag`ï¼‰å†æ”¾å…¥é«˜é€Ÿå¾ªç¯ã€‚
+- ä¸ç”µæœºé€šä¿¡ç›¸å…³æ”¹åŠ¨å¿…é¡»åŒæ—¶éªŒè¯ `modify_data()`/`extract_data()` çš„ CRC ä¸ `SENDBUFF_SIZE`/æŠ¥æ–‡å¯¹é½ã€‚
 
-## ¹Ø¼üÎÄ¼şµ¼ÀÀ
-
-| ÎÄ¼ş | Ö°Ôğ |
-|------|------|
-| [User/main.c](User/main.c) | Æô¶¯¡¢Ö÷Ñ­»·¡¢²½Ì¬·ÖÖ§¿ØÖÆ¡¢PID ²ÎÊı¶¨Òå |
-| [User/bsp_ma_su/bsp_ma_su.c](User/bsp_ma_su/bsp_ma_su.c) | ²½Ì¬¼ÆËã¡¢PID ³õÊ¼»¯¡¢µç»úÊı¾İ¸üĞÂ·¢ËÍ |
-| [User/stm32f4xx_it.c](User/stm32f4xx_it.c) | GENERAL_TIM_IRQHandler£¨1ms ÖĞ¶Ï£©¡¢DMA ÖĞ¶Ï´¦Àí |
-| [User/GO-M8010-6/GO-M8010-6.c](User/GO-M8010-6/GO-M8010-6.c) | µç»úĞ­Òé±àÂë/½âÂë¡¢CRC Ğ£Ñé |
-| [User/pid/pid.c](User/pid/pid.c) | PID ¼ÆËãºËĞÄ£¨Î»ÖÃ/ËÙ¶ÈÄ£Ê½£© |
-| [User/bsp_rc/bsp_rc.c](User/bsp_rc/bsp_rc.c) | RC Í¨µÀ½âÎö |
-| [User/bsp_imu/bsp_imu.c](User/bsp_imu/bsp_imu.c) | IMU ÍÓÂİÒÇÊı¾İ¶ÁÈ¡Óë Z ÖáÎÈ¶¨¿ØÖÆ |
-| [User/tim/bsp_general_tim.c](User/tim/bsp_general_tim.c) | ¶¨Ê±Æ÷ÅäÖÃ£¨1ms ÖÜÆÚ£©|
-
-## Í¨ĞÅĞ­Òé
-
-### µç»úÍ¨ĞÅ (GO-M8010-6 Çı¶¯)
-- **½Ó¿Ú**: USART6 (²¨ÌØÂÊ: 115200 baud£¬¼û [User/bsp_usart_dma/bsp_usart_dma.c](User/bsp_usart_dma/bsp_usart_dma.c))
-- **Êı¾İÁ÷**: Ö÷¿Ø ¡ú µç»ú£¨ÃüÁî£©£»µç»ú ¡ú Ö÷¿Ø£¨·´À¡£¬Í¨¹ı DMA ÖĞ¶Ï½ÓÊÕ£©
-- **Êı¾İ°ü¸ñÊ½**: ¼û [User/GO-M8010-6/GO-M8010-6.h](User/GO-M8010-6/GO-M8010-6.h) ÖĞ `MOTOR_send` / `MOTOR_recv` ½á¹¹Ìå£¨pragma pack(1)£©
-- **ÖØÒª**: `modify_data()` / `extract_data()` ´¦Àí×Ö½ÚĞòºÍ CRC£»ĞŞ¸ÄĞ­ÒéÇ°Îñ±ØÍ¬²½Ğ£Ñé
-
-### RC Ò£¿Ø
-- **½Ó¿Ú**: USART1 (DMA ½ÓÊÕ)
-- **¸ñÊ½**: 18 ×Ö½ÚÖ¡£¬Í¨¹ı `rc_rc_date()` ½âÎöÎªÍ¨µÀÖµ (`rc_rc.ch0` ~ `rc_rc.ch3`) ºÍ¿ª¹Ø (`rc_rc.s1`, `rc_rc.s2`)
-
-## ³£¼û±àÂëÄ£Ê½
-
-### 1. ĞŞ¸Ä PID ²ÎÊı
-²Î¿¼: [User/main.c](User/main.c#L26-L28)
-```c
-// User/main.c ÖĞ¶¨Òå
-const fp32 Motor2_speed_PID_data[3] = {Kp, Ki, Kd};
-
-// bsp_ma_su.c ÖĞ³õÊ¼»¯
-PID_struct[id] = PID_Init(..., Motor2_speed_PID_data, ...);
-
-// ĞŞ¸ÄÊ±£ºĞèÍ¬Ê±¸üĞÂ¶¨Òå¡¢³õÊ¼»¯µã ºÍËùÓĞÒıÓÃµã
-// ËÑË÷: "Motor2_speed_PID_data" È·±£Ò»ÖÂĞÔ
-```
-
-### 2. Ìí¼ÓĞÂµÄ²½Ì¬Ä£Ê½
-²Î¿¼: [User/main.c](User/main.c#L169-L192)
-- ÔÚÌõ¼ş·ÖÖ§ÖĞÌí¼ÓĞÂ `if(step == N)` ÅĞ¶Ï
-- µ÷ÓÃ `foot_track()` ¼ÆËã×ã¶Ë¹ì¼£
-- µ÷ÓÃ `counter_motion()` ¼ÆËãÄæÔË¶¯Ñ§
-- È·±£ `foot_track_xN`, `foot_track_yN` ×ñÑ­Éè¶¨µÄ¹ì¼£ÖÜÆÚ
-
-### 3. µ÷ÕûÖĞ¶ÏÓÅÏÈ¼¶
-¼û: [User/stm32f4xx_it.c](User/stm32f4xx_it.c) ºÍ [User/tim/bsp_general_tim.c](User/tim/bsp_general_tim.c)
-- ²»ÒªĞŞ¸Ä GENERAL_TIM_IRQHandler µÄÊ±¼ä¸´ÔÓ¶È£¨±£Ö¤ < 0.5ms£©
-- ÈôĞèÌí¼ÓĞÂÖĞ¶Ï£¬ÔÚ stm32f4xx_it.c ÖĞĞÂÔö²¢ÔÚ NVIC ÅäÖÃÖĞÉèÖÃÓÅÏÈ¼¶ (TIM > USART6_DMA > RC_DMA)
-
-## µ÷ÊÔ¼¼ÇÉ
-
-- **¼àÊÓ±äÁ¿**: `motor2_feedback_data.Pos`, `Motor2_speed_PID_OUT`, `time_currently`
-- **ÈÕÖ¾Êä³ö**: Í¨¹ı [User/usart/bsp_debug_usart.h](User/usart/bsp_debug_usart.h) µÄ `printf()` µ½µ÷ÊÔ´®¿Ú
-- **DMA ½ÓÊÕÊ§°ÜÅÅ²é**: ¼ì²é USART6 ²¨ÌØÂÊ¡¢DMA Í¨µÀÅäÖÃ¡¢CRC Ğ£Ñé£¨¼û [User/GO-M8010-6/GO-M8010-6.c](User/GO-M8010-6/GO-M8010-6.c)£©
-
-## ĞŞ¸ÄÇ°µÄ¿ìËÙ¼ì²éÇåµ¥
-
-1. **Ó°Ïì 1ms ÖĞ¶Ï?** ÈôÊÇ£¬Ğè±£Ö¤´úÂëÔÚ < 0.5ms ÄÚÍê³É
-2. **Éæ¼°µç»úÃüÁî¸ñÊ½?** Í¬²½¼ì²é [User/GO-M8010-6/GO-M8010-6.c](User/GO-M8010-6/GO-M8010-6.c) ÖĞ CRC ºÍ×Ö½ÚĞò
-3. **ĞŞ¸ÄÈ«¾Öµç»ú/PID Êı¾İ?** grep ËÑË÷ËùÓĞÒıÓÃµã²¢Ò»´Î¸üĞÂ¶¨Òå¡¢³õÊ¼»¯¡¢Ê¹ÓÃµã
-4. **ĞÂÔöÖĞ¶Ï´¦Àí?** È·ÈÏÓÅÏÈ¼¶ºÍÓë TIM µÄ²»³åÍ»
-5. **¸ÄÖ÷Ñ­»·Á÷³Ì?** ±£Áô `step = 0` ÒÔ¼° `Motor_date_send()` Ë³Ğò²»±ä
+éœ€è¦è¡¥å……æˆ–ä¸æ¸…æ¥šçš„åœ°æ–¹è¯·å‘ŠçŸ¥ï¼šæˆ‘ä¼šæŠŠè¯¥æ–‡ä»¶è¿›ä¸€æ­¥ç»†åŒ–ä¸ºâ€œä»»åŠ¡æ¨¡æ¿â€ï¼ˆä¾‹å¦‚ï¼šå¦‚ä½•å®‰å…¨åœ°è°ƒä½æŸç”µæœº Kp å¹¶éªŒè¯ï¼‰ã€‚
