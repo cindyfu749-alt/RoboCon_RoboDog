@@ -1,9 +1,9 @@
 #include "bsp_usart_dma.h"
 #include "GO-M8010-6.h"
+
 uint8_t RC[18];
 
-extern MOTOR_recv motor1_feedback_data;
-extern MOTOR_recv motor_feedback_data;//MDA存储数据后，在中断中用于电机ID判断------
+
 /**
   * @brief  USART1 TX DMA 配置，内存到外设(USART1->DR)
   * @param  无

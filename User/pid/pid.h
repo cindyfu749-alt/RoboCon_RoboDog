@@ -17,6 +17,7 @@
 #ifndef PID_H
 #define PID_H
 #include "struct_typedef.h"
+#include "system_data.h"
 
 enum PID_MODE
 {
@@ -96,8 +97,6 @@ extern fp32 PID_calc_rang(pid_type_def *pid, fp32 ref, fp32 set);
   */
 extern void PID_clear(pid_type_def *pid);
 // 电机速度和角度 PID，使用 1-based 数组：索引 1..Mo_Count
-extern pid_type_def Motor_speed_PID[Mo_Count + 1]; //电机速度PID
-extern pid_type_def Motor_rang_PID[Mo_Count + 1];  //电机角度PID
-extern pid_type_def imu_Z_PID;
 #endif
+
  

@@ -13,7 +13,8 @@
 #include "stm32f4xx.h"
 #include "struct_typedef.h"
 #include "GO-M8010-6.h"
-
+#define Mo_Count 9  ///< 电机数量
+extern int printf_flag ;//可打印标志---2023-6-22
 /* ==================== 电机数据结构 ==================== */
 
 /** 
@@ -30,6 +31,15 @@ extern float motor_speed_pid_out[10];    ///< 速度环 PID 输出 (1-9)
 extern float motor_angle_pid_out[10];    ///< 位置环 PID 输出 (1-9)
 extern float imu_z_pid_out;              ///< IMU Z 轴 PID 输出
 
+/* ==================== PID 结构体 ==================== */
+extern pid_type_def Motor_speed_PID[Mo_Count + 1]; //电机速度PID
+extern pid_type_def Motor_rang_PID[Mo_Count + 1];  //电机角度PID
+extern pid_type_def imu_Z_PID;
+
+/* ==================== KP Ki KD=========== */
+extern const fp32 motor_speed_pid_data[3];  ///< 速度环 PID 参数
+extern const fp32 motor_angle_pid_data[3];  ///< 位置环 PID
+
 /* ==================== 步态数据结构 ==================== */
 
 /**
@@ -42,7 +52,7 @@ typedef struct {
 
 /** 全局足端轨迹（4 条腿） */
 extern foot_track_t foot_track[4];
-#define Mo_Count 9
+
 /**
  * @brief 关节角度数据
  * @note 索引对应关系：
@@ -61,13 +71,13 @@ extern int dog_init_time;                ///< 初始化计时
 
 /* ==================== 电机通信 ==================== */
 
-extern int motor_send_id;                ///< 正在发送的电机 ID
-extern int motor_feedback_id;            ///< 最近接收的电机反馈 ID
+extern int Motor_Send_ID;                ///< 正在发送的电机 ID
+extern int Motor_feedback_ID;            ///< 最近接收的电机反馈 ID
 extern uint8_t motor_rx_flag;            ///< 电机接收标志
 
 /* ==================== RC 遥控 ==================== */
 
-extern uint8_t rc_raw_data[18];          ///< RC 原始数据缓冲
+extern uint8_t RC[18];                     ///< RC 原始数据缓冲
 extern rc rc_rc;                           ///< 解析后的 RC 数据
 
 /* ==================== 标志位 ==================== */
@@ -87,9 +97,16 @@ extern float ttl;
 extern int Dog_Iinit ;
 extern int Dog_flag ;
 
+
+extern float Motor_set_Pos;                ///< 目标位置
+
+/* ==================== CAN_TX/RX_Msg ==================== */
+extern CanTxMsg TxMessage;//发送缓冲区
+extern CanRxMsg RxMessage;		//接收缓冲区
+
 /* ==================== 传感器数据 ==================== */
 
-extern float imu_data[4][4];             ///< IMU 数据（3x3 矩阵 + 温度）
+extern float imu_Rx_data[4][4];             ///< IMU 数据（3x3 矩阵 + 温度）
 
 /* ==================== 初始化函数 ==================== */
 
