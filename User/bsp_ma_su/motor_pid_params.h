@@ -135,20 +135,12 @@ typedef struct
     float target_rang; //目标角度
 }Motor_Pos;
 
-
-Motor_Pos motor_pos_offset[10] = 
-{
-    {0.0f, 0.0f}, // [0]未使用rang__2;
-    {0.0f, rang__2}, // [1] 未使用
-    {+11.184f, rang__2}, // [2] 电机2
-    {- 9.080f, rang__3}, // [3] 电机3
-    {+ 0.501f,-rang__4}, // [4] 电机4
-    {- 18.194f,-rang__5}, // [5] 电机5
-    {- 12.201f ,-rang__6}, // [6] 电机6
-    {+ 4.448f,-rang__7}, // [7] 电机7
-    {- 10.007f,rang__8}, // [8] 电机8
-    {+ 6.888f,rang__9}, // [9] 电机9
-};
+/**
+ * @brief 电机位置偏移与目标角度表
+ * @details 由 bsp_ma_su.c 中的 motor_pos_init() 在运行时初始化
+ * @note 索引 0 未使用，从索引 1-9 有效
+ */
+extern Motor_Pos motor_pos_offset[10];
 /* ==================== 辅助宏 ==================== */
 
 /**

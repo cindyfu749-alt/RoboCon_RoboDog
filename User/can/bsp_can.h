@@ -2,6 +2,7 @@
 #define	__CAN_H
 
 #include "stm32f4xx.h"
+#include "stm32f4xx_can.h"
 #include <stdio.h>
 
 

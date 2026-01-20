@@ -21,8 +21,9 @@ MOTOR_send motor_control_clear;
 MOTOR_send motor_control_data[10]= {0}; /* individual legacy structs may still be used */
 MOTOR_recv motor_feedback_data[10] = {0}; /* individual legacy structs may still be used */
 
-float Motor_speed_PID_OUT[10] = {0};
-float Motor_rang_PID_OUT[10] = {0};
+float Motor_speed_PID_OUT[10];    ///< 速度环 PID 输出 (1-9)
+float Motor_rang_PID_OUT[10];    ///< 位置环 PID 输出 (1-9) 
+
 
 /* gait/tracking globals (keep original names) */
 float rang__2 = 0, rang__3 = 0, rang__4 = 0, rang__5 = 0, rang__6 = 0, rang__7 = 0, rang__8 = 0, rang__9 = 0;
@@ -31,7 +32,7 @@ float foot_track_x2 = 0, foot_track_y2 = 0;
 float foot_track_x3 = 0, foot_track_y3 = 0;
 float foot_track_x4 = 0, foot_track_y4 = 0;
 float Motor_set_Pos = 0.0f; 
-int Motor_send_ID = 1; 
+int Motor_Send_ID = 1; 
 int time_currently = 0;
 int time_turn = 0;
 float ttl = 0.0f;
@@ -39,12 +40,15 @@ int step = 1;
 float step_turn_k = 0.0004f;
 int dog_rest_flag = 0;
 
+/* Motor position offset and target angle table (initialized at runtime) */
+Motor_Pos motor_pos_offset[10];
+
 //--腿高变量//
 	int leg_high = 200;
 	int leg_high_tai_tui = 40;
 
-/* small helper: clamp motor id to valid range */
-static inline int _clamp_motor_id(int id) { if (id < 1) return 1; if (id > Mo_Count) return Mo_Count; return id; }
+
+
 
 /* Initialize PID structs for all motors using MOTOR_* parameters */
 void motor_pid_init_all(void)
@@ -55,6 +59,24 @@ void motor_pid_init_all(void)
 	}
 	/* IMU Z axis if present */
 	PID_init(&imu_Z_PID, PID_POSITION, IMU_Z_AXIS_PID_data, 0.0f, 0.0f);
+}
+
+/**
+ * @brief 电机位置偏移表运行时初始化
+ * @details 在 main() 中调用一次，将 rang__* 变量映射到 motor_pos_offset[]
+ */
+void motor_pos_init(void)
+{
+	motor_pos_offset[0] = (Motor_Pos){0.0f, 0.0f};             // [0] 未使用
+	motor_pos_offset[1] = (Motor_Pos){0.0f, rang__2};          // [1] 未使用
+	motor_pos_offset[2] = (Motor_Pos){+11.184f, rang__2};      // [2] 电机2
+	motor_pos_offset[3] = (Motor_Pos){-9.080f, rang__3};       // [3] 电机3
+	motor_pos_offset[4] = (Motor_Pos){+0.501f, -rang__4};      // [4] 电机4
+	motor_pos_offset[5] = (Motor_Pos){-18.194f, -rang__5};     // [5] 电机5
+	motor_pos_offset[6] = (Motor_Pos){-12.201f, -rang__6};     // [6] 电机6(Motor_Pos)
+	motor_pos_offset[7] = (Motor_Pos){+4.448f, -rang__7};      // [7] 电机7
+	motor_pos_offset[8] = (Motor_Pos){-10.007f, rang__8};      // [8] 电机8
+	motor_pos_offset[9] = (Motor_Pos){+6.888f, rang__9};       // [9] 电机9
 }
 
 int Motor_Mode_init(void)
@@ -87,7 +109,7 @@ int Motor_pid_compute(int Motor_feedback_ID, float set_pos)
 	//角度PID//
 	Motor_rang_PID_OUT[id] = PID_calc(&Motor_rang_PID[id], motor_feedback_data[id].Pos+motor_pos->pos_offset,motor_pos->target_rang);
 	//速度PID//
-	Motor_speed_PID_OUT[id] = PID_calc(&Motor_speed_PID[id], motor_feedback_data[id].w, Motor_rang_PID_OUT[id]);
+	Motor_speed_PID_OUT[id] = PID_calc(&Motor_speed_PID[id], motor_feedback_data[id].W, Motor_rang_PID_OUT[id]);
 	return 0;
 }
 

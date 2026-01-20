@@ -40,6 +40,17 @@
 #include "./can/bsp_can.h"
 #include "bsp_imu.h"
 
+/* Legacy per-motor feedback data symbols (for compatibility; backed by motor_feedback_data[id]) */
+MOTOR_recv motor1_feedback_data;
+MOTOR_recv motor2_feedback_data;
+MOTOR_recv motor3_feedback_data;
+MOTOR_recv motor4_feedback_data;
+MOTOR_recv motor5_feedback_data;
+MOTOR_recv motor6_feedback_data;
+MOTOR_recv motor7_feedback_data;
+MOTOR_recv motor8_feedback_data;
+MOTOR_recv motor9_feedback_data;
+
 /** @addtogroup Template_Project
   * @{
   */
@@ -71,7 +82,7 @@
   * @param  None
   * @retval None
   */
-
+extern	MOTOR_recv motor_feedback_data;
 extern uint8_t Motor_Rxflag;
 extern uint8_t Motor_Rx_date;
 void RS485_USART_IRQHandler(void)
@@ -84,41 +95,6 @@ void RS485_USART_IRQHandler(void)
 	 
 }	
 
-extern int step ;
-extern int tim_t;
-extern int time_currently ;//步态当前时间
-extern int time_turn;//转向当前时间
-extern int Key_flag;
-extern	MOTOR_recv motor_feedback_data;//MDA存储数据后，在中断中用于电机ID判断
-extern	MOTOR_send motor_control_clear;   //电机停止
-
-extern	MOTOR_send motor1_control_data;   //电机1控制
-extern	MOTOR_recv motor1_feedback_data;	 //电机1反馈
-extern	MOTOR_send motor2_control_data;   //电机2控制
-extern	MOTOR_recv motor2_feedback_data;	 //电机2反馈
-extern	MOTOR_send motor3_control_data;   //电机3控制
-extern	MOTOR_recv motor3_feedback_data;	 //电机3反馈
-extern	MOTOR_send motor4_control_data;   //电机4控制
-extern	MOTOR_recv motor4_feedback_data;	 //电机4反馈
-extern	MOTOR_send motor5_control_data;   //电机5控制
-extern	MOTOR_recv motor5_feedback_data;	 //电机5馈
-extern	MOTOR_send motor6_control_data;   //电机6控制
-extern	MOTOR_recv motor6_feedback_data;	 //电机6反馈
-extern	MOTOR_send motor7_control_data;   //电机7控制
-extern	MOTOR_recv motor7_feedback_data;	 //电机7反馈
-extern	MOTOR_send motor8_control_data;   //电机8控制
-extern	MOTOR_recv motor8_feedback_data;	 //电机8反馈
-extern	MOTOR_send motor9_control_data;   //电机8控制
-extern	MOTOR_recv motor9_feedback_data;	 //电机8反馈
-//--------------------------------------------------
-extern	float Motor1_speed_PID_OUT ;
-
-extern int Motor_send_ID;	//1--到--8号电机轮流发控制电机数据
-/* 通用定时器2定时，pid ---- 1ms产生一次中断 */
-
-extern float rang__2 ;
-extern float rang__3 ;
-extern 	int nnn ;
 //------------------------------------------------------------------
 int pp = 0;
 int Motor_feedback_ID = 1;
@@ -215,6 +191,8 @@ void GENERAL_TIM_IRQHandler (void)
   //清除中断标志
 	TIM_ClearITPendingBit(GENERAL_TIM , TIM_IT_Update);  		 
 }
+
+/*********DMA中断处理**********/
 //电机数据的ID辨别
 void Motor_DMA_IRQHandler (void)
 {
@@ -222,6 +200,7 @@ void Motor_DMA_IRQHandler (void)
 	//判断CRC把数据写入接收结构体数据赋值
 	extract_data(&motor_feedback_data);
 	Motor_feedback_ID = motor_feedback_data.motor_id;
+	
 
 //	printf("%d\n",motor_feedback_data.motor_id);
 //	printf("%d\n",motor_feedback_data.motor_recv_data.mode.id);
