@@ -21,8 +21,8 @@ extern int printf_flag ;//可打印标志---2023-6-22
  * @brief 全局电机控制和反馈数据
  * @note 索引 0 未使用，1-9 对应电机 1-9
  */
-extern MOTOR_send motor_ctrl[10];        ///< 电机控制命令
-extern MOTOR_recv motor_fdbk[10];        ///< 电机反馈数据
+extern MOTOR_send motor_control_data[10];        ///< 电机控制命令
+extern MOTOR_recv motor_feedback_data[10];        ///< 电机反馈数据
 extern MOTOR_send motor_ctrl_clear;      ///< 电机停止命令
 
 /* ==================== PID 输出数据 ==================== */
@@ -38,7 +38,7 @@ extern pid_type_def imu_Z_PID;
 
 /* ==================== KP Ki KD=========== */
 extern const fp32 motor_speed_pid_data[3];  ///< 速度环 PID 参数
-extern const fp32 motor_angle_pid_data[3];  ///< 位置环 PID
+extern const fp32 motor_rang_pid_data[3];  ///< 位置环 PID
 
 /* ==================== 步态数据结构 ==================== */
 

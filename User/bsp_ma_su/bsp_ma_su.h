@@ -9,14 +9,14 @@
 /* ==================== PID 参数表 ==================== */
 
 /** PID 参数表：[速度Kp, 速度Ki, 速度Kd] */
-extern const fp32 motor_speed_pid_params[10][3];
+extern const fp32 motor_speed_pid_data[10][3];
 
 /** PID 参数表：[位置Kp, 位置Ki, 位置Kd] */
-extern const fp32 motor_angle_pid_params[10][3];
+extern const fp32 motor_rang_pid_data[10][3];
 
 /** 电机控制和反馈数据数组 */
-extern MOTOR_send motor_ctrl[10];
-extern MOTOR_recv motor_fdbk[10];
+extern MOTOR_send motor_control_data[10];
+extern MOTOR_recv motor_feedback_data[10];
 
 /** PID 输出数组 */
 extern float motor_speed_pid_out[10];
