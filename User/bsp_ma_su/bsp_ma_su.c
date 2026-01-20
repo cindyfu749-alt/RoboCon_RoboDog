@@ -63,7 +63,7 @@ void motor_pid_init_all(void)
 
 /**
  * @brief 电机位置偏移表运行时初始化
- * @details 在 main() 中调用一次，将 rang__* 变量映射到 motor_pos_offset[]
+ * @details 将 rang__* 变量(由conter_motion输出得到)映射到 motor_pos_offset[]
  */
 void motor_pos_init(void)
 {
@@ -79,9 +79,10 @@ void motor_pos_init(void)
 	motor_pos_offset[9] = (Motor_Pos){+6.888f, rang__9};       // [9] 电机9
 }
 
+//电机模式初始化//
 int Motor_Mode_init(void)
 {
-	/* prepare a default stop packet */
+	/* 电机停止结构体 */
 	memset(&motor_control_clear, 0, sizeof(motor_control_clear));//清空
 	motor_control_clear.id = 15;
 	motor_control_clear.mode = 1;
@@ -91,7 +92,7 @@ int Motor_Mode_init(void)
 	for (int id = 1; id <= Mo_Count; ++id) {
 		motor_control_data[id].id = id;
 		motor_control_data[id].mode = 1;
-		motor_control_data[id].T = 0;
+		motor_control_data[id].T = 0;  //控制时，只对扭矩更新
 		motor_control_data[id].W = 0.0f;
 		motor_control_data[id].Pos = 0.0f;
 		motor_control_data[id].K_P = 0;
@@ -101,7 +102,7 @@ int Motor_Mode_init(void)
 	return 0;
 }
 
-/* Compute PID outputs for one motor (legacy wrapper) */
+/* PID输出函数 */
 int Motor_pid_compute(int Motor_feedback_ID, float set_pos)
 {
 	int id = _clamp_motor_id(Motor_feedback_ID);
@@ -151,14 +152,14 @@ void motor_key_control(void)
 	}
 }
 
-//锟饺关斤拷锟剿讹拷锟斤拷锟?
+//***********逆运动学计算 将x，y坐标转化为电机角度***************//
 void counter_motion(float X,float Y,float *range1, float *range2)
 {
-	float L = 0.0f;//锟斤拷锟饺筹拷
-//	float L1 = 0.0f;//锟斤拷锟饺筹拷
-//	float L2 = 0.0f;//锟斤拷锟饺筹拷
-	float range_Leg = 0.0f;//锟饺斤拷
-	float range_separate = 0.0f;//锟斤拷锟斤拷锟?
+	float L = 0.0f;//腿长
+//	float L1 = 0.0f;//腿长
+//	float L2 = 0.0f;//腿长
+	float range_Leg = 0.0f;//腿长
+	float range_separate = 0.0f;//腿长
 //	X = X*0.333f;
 //	Y = Y*0.333f;
 	L = sqrt(X*X + Y*Y);
@@ -171,10 +172,10 @@ void counter_motion(float X,float Y,float *range1, float *range2)
 	*range2 = (3.1415f - (range_separate + range_Leg))*6.33f;
 }
 
-//锟斤拷斯旒?--------------------------抬锟斤拷时锟斤拷----锟斤拷前时锟斤拷------转锟斤拷锟斤拷锟斤拷锟?--转锟斤拷前时锟斤拷-----锟斤拷锟斤拷锟斤拷支锟斤拷-模式------
+//逆运动学计算----抬腿时----前时-------转腿时------转腿前时-----抬腿支腿-模式//
 void foot_track (float *X,float *Y,int Tm,int time_currently,int turn_Tm,int time_turn,int move_mode,int direction_mode)
 {
-	//--锟斤拷频选锟斤拷----------------------------------------------
+	//--频率选择----------------------------------------------
 		if((rc_rc.s1 == 3)&&(rc_rc.s2 == 1))
 		{
 			leg_high = 220;
@@ -183,41 +184,41 @@ void foot_track (float *X,float *Y,int Tm,int time_currently,int turn_Tm,int tim
 		{
 			leg_high = 200;
 		}
-  //锟斤拷锟斤拷模式时锟斤拷锟斤拷位锟斤拷
+  //逆运动学模式时计算位移
 	int flag = 1;
 	
-	//锟斤拷锟斤拷始锟斤拷站锟斤拷锟斤拷锟斤拷2s---------------------------------------------------------
+	//狗初始化站立起来2s//
 	if(Dog_Iinit <2000)
 	{
-		//锟斤拷锟街憋拷锟斤拷锟斤拷旒?
+		//足端直线向后轨迹
 		*X = 160 - 160*((float)Dog_Iinit/2000);
 		*Y = 100 + 100*((float)Dog_Iinit/2000);
 	}
 	else
 	{
-	//-1-//锟斤拷锟斤拷锟饺猴拷锟?------锟斤拷支锟斤拷-------------------------------------------------------------------------------
+	//-1-//行走先后脚------先支撑-------------------------------------------------------------------------------
 	if(move_mode == 1)
 	{
-		//锟斤拷前锟斤拷
+		//向前走
 		if((rc_rc.s1 == 3)&&(rc_rc.ch3>330))
 		{
 			flag = 0;
-			//抬锟斤拷时锟斤拷-----抬锟斤拷
+			//抬脚时间-----抬脚
 			if(((time_currently == 0)||(time_currently > 0))&&((time_currently<Tm)||(Tm == time_currently)))
 			{
-				//锟斤拷锟街憋拷锟斤拷锟斤拷旒?
+				//足端直线向后轨迹
 				*X = 70 - 140*((float)time_currently/Tm) ;
 				*Y = leg_high;
 			}
-			else//锟斤拷锟斤拷抬锟斤拷时锟斤拷锟斤拷锟斤拷支锟斤拷直锟斤拷锟斤拷锟?
+			else///过了抬脚时间后，足端支撑直线向后
 			{
-				//锟斤拷锟侥斤拷锟脚碉拷时锟斤拷
-				//锟斤拷税锟斤拷锟斤拷锟角帮拷旒?
-				//锟斤拷始锟斤拷-----锟斤拷锟斤拷------------锟斤拷前时锟斤拷--抬锟斤拷时锟斤拷
+				//无四脚着地时间
+				//足端摆线向前轨迹
+				//起始点-----步长------------当前时间--抬脚时长
 				*X =   -70  +   140*((float)time_currently/Tm-1.0f - 0.1591f*sin(6.283f*((float)time_currently/Tm - 1.0f)));
-				//锟斤拷烁锟?     抬锟脚高讹拷
+				//足端高     抬脚高度
 				*Y =   200  -   leg_high_tai_tui*(0.5f - 0.5f*cos(6.283f*((float)time_currently/Tm - 1.0f)));
-////				//锟斤拷锟侥斤拷锟脚碉拷时锟斤拷
+////				//有四脚着地时间
 ////				if(((float)time_currently/Tm > 1)&&((float)time_currently/Tm <1.5f))
 ////				{
 ////					*X = -70;
@@ -225,18 +226,18 @@ void foot_track (float *X,float *Y,int Tm,int time_currently,int turn_Tm,int tim
 ////				}
 ////				else
 ////				{
-////					//锟斤拷税锟斤拷锟斤拷锟角帮拷旒?
-////					//锟斤拷始锟斤拷-----锟斤拷锟斤拷------------锟斤拷前时锟斤拷--抬锟斤拷时锟斤拷
+////					//足端摆线向前轨迹
+////					//起始点-----步长------------当前时间--抬脚时长
 ////					*X =   -70  +   140*((float)time_currently/Tm-1.5f - 0.1591f*sin(6.283f*((float)time_currently/Tm - 1.5f)));
-////					//锟斤拷烁锟?     抬锟脚高讹拷
+////					//足端高     抬脚高度
 ////					*Y =   200  -   50*(0.5f - 0.5f*cos(6.283f*((float)time_currently/Tm - 1.5f)));
 ////				}
 			}
-//---锟斤拷锟斤拷转锟斤拷-----------------------------------------------------------
+//---步幅转向----------------------------------------------------------
 			if((rc_rc.ch0 > 0)||(step_turn_flag))
 			{
 				step_turn_flag = 1;
-				//-------锟斤拷2锟斤拷-4-5-----------锟斤拷锟斤拷转锟斤拷锟街?--------------------------------------------------------
+				//-------腿2号-4-5-----------步幅转向标志--------------------------------------------------------
 				if(((direction_mode ==3))&&step_turn_flag)
 				{
 					//锟斤拷锟斤拷转锟斤拷系锟斤拷step_turn_k*rc_rc.ch0  0---0.5

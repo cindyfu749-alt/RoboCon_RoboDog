@@ -39,17 +39,7 @@
 #include "bsp_rc.h"
 #include "./can/bsp_can.h"
 #include "bsp_imu.h"
-
-/* Legacy per-motor feedback data symbols (for compatibility; backed by motor_feedback_data[id]) */
-MOTOR_recv motor1_feedback_data;
-MOTOR_recv motor2_feedback_data;
-MOTOR_recv motor3_feedback_data;
-MOTOR_recv motor4_feedback_data;
-MOTOR_recv motor5_feedback_data;
-MOTOR_recv motor6_feedback_data;
-MOTOR_recv motor7_feedback_data;
-MOTOR_recv motor8_feedback_data;
-MOTOR_recv motor9_feedback_data;
+#include "system_data.h"
 
 /** @addtogroup Template_Project
   * @{
@@ -82,9 +72,6 @@ MOTOR_recv motor9_feedback_data;
   * @param  None
   * @retval None
   */
-extern	MOTOR_recv motor_feedback_data;
-extern uint8_t Motor_Rxflag;
-extern uint8_t Motor_Rx_date;
 void RS485_USART_IRQHandler(void)
 {
 //	if(USART_GetITStatus( DEBUG_USART, USART_IT_RXNE ) != RESET)
@@ -122,7 +109,7 @@ extern float imu_Rx_data[4][4];
 //--------------------------------------------------------------------------------
 int printf_flag = 0;//可打印标志
 //-步态-复位标志---
-extern int dog_rest_flag;
+
 //跳----------------------------------------------------------------------
 	//--跳--时间------------
 	int dog_jump_time = 0;
@@ -136,10 +123,8 @@ extern int dog_rest_flag;
 	int backflip_flag = 0;
 	//空翻计时
 	int backflip_time = 0;
-//------------------------------------------------------------------------
 //---步幅转向标志--------------------------------------------------------
 int step_turn_flag = 1;
-//-----------------------------------------------------------------------
 //---步频--------------------------------------------------------------------
 		//跷跷板步速
 		int step_speed_high = 300;
@@ -196,72 +181,17 @@ void GENERAL_TIM_IRQHandler (void)
 //电机数据的ID辨别
 void Motor_DMA_IRQHandler (void)
 {
-		
 	//判断CRC把数据写入接收结构体数据赋值
 	extract_data(&motor_feedback_data);
-	Motor_feedback_ID = motor_feedback_data.motor_id;
-	
-
-//	printf("%d\n",motor_feedback_data.motor_id);
-//	printf("%d\n",motor_feedback_data.motor_recv_data.mode.id);
-	switch(Motor_feedback_ID)
-	 {
-		case 1 :  
-			step = 1;
-			motor1_feedback_data.T = motor_feedback_data.T;
-			motor1_feedback_data.W = motor_feedback_data.W;
-			motor1_feedback_data.Pos = motor_feedback_data.Pos;
-			break;
-		case 2 :  
-			step = 2;
-			motor2_feedback_data.T = motor_feedback_data.T;
-			motor2_feedback_data.W = motor_feedback_data.W;
-			motor2_feedback_data.Pos = motor_feedback_data.Pos;	
-			break;
-		case 3 :
-			step = 3;			
-			motor3_feedback_data.T = motor_feedback_data.T;
-			motor3_feedback_data.W = motor_feedback_data.W;
-			motor3_feedback_data.Pos = motor_feedback_data.Pos;	
-			break;
-		case 4 :  
-			step = 4;			
-			motor4_feedback_data.T = motor_feedback_data.T;
-			motor4_feedback_data.W = motor_feedback_data.W;
-			motor4_feedback_data.Pos = motor_feedback_data.Pos;
-			break;		
-		case 5 :  
-			step = 5;			
-			motor5_feedback_data.T = motor_feedback_data.T;
-			motor5_feedback_data.W = motor_feedback_data.W;
-			motor5_feedback_data.Pos = motor_feedback_data.Pos;	
-		break;
-		case 6 :  
-			step = 6;			
-			motor6_feedback_data.T = motor_feedback_data.T;
-			motor6_feedback_data.W = motor_feedback_data.W;
-			motor6_feedback_data.Pos = motor_feedback_data.Pos;		
-		break;
-		case 7 :  
-			step = 7;			
-			motor7_feedback_data.T = motor_feedback_data.T;
-			motor7_feedback_data.W = motor_feedback_data.W;
-			motor7_feedback_data.Pos = motor_feedback_data.Pos;		
-		break;
-		case 8 :  
-			step = 8;			
-			motor8_feedback_data.T = motor_feedback_data.T;
-			motor8_feedback_data.W = motor_feedback_data.W;
-			motor8_feedback_data.Pos = motor_feedback_data.Pos;		
-		break;
-		case 9 :  
-			step = 9;			
-			motor9_feedback_data.T = motor_feedback_data.T;
-			motor9_feedback_data.W = motor_feedback_data.W;
-			motor9_feedback_data.Pos = motor_feedback_data.Pos;		
-		break;
-	 }
+	Motor_feedback_ID = motor_feedback_data->motor_id;
+	int id = _clamp_motor_id(Motor_feedback_ID);
+			step = id;
+			motor_feedback_data[id].T = motor_feedback_data->T;
+			motor_feedback_data[id].W = motor_feedback_data->W;
+			motor_feedback_data[id].Pos = motor_feedback_data->Pos;
 	DMA_ClearITPendingBit(DEBUG_USART_DMA_STREAM , DMA_IT_TCIF1); 
+	//	printf("%d\n",motor_feedback_data.motor_id);
+    //	printf("%d\n",motor_feedback_data.motor_recv_data.mode.id);
 }
 
 void RC_DMA_IRQHandler(void)
@@ -270,8 +200,8 @@ void RC_DMA_IRQHandler(void)
 	DMA_ClearITPendingBit(RC_USART_DMA_STREAM , DMA_IT_TCIF2); 
 }
 
-//imu陀螺仪CAN接收中断----------------------------------------------------
-void CAN_RX_IRQHandler(void)
+//imu陀螺仪CAN接收中断----------------------------------------------------  
+void CAN_RX_IRQHandler(void)//不知道要干嘛，先不动这个函数
 {
 //	uint16_t imu_Rx_data[3][3];
 	/*从邮箱中读出报文*/
@@ -282,7 +212,7 @@ void CAN_RX_IRQHandler(void)
 		switch(RxMessage.Data[1])
 		{
 //			case 0x51 ://加速度
-//				imu_Rx_data[0][1] = 0.009f+ ((int16_t)(RxMessage.Data[3]<<8)|(int16_t)RxMessage.Data[2])/32768.0f * 16.0f;
+				imu_Rx_data[0][1] = 0.009f+ ((int16_t)(RxMessage.Data[3]<<8)|(int16_t)RxMessage.Data[2])/32768.0f * 16.0f;
 //				imu_Rx_data[0][2] = ((int16_t)(RxMessage.Data[5]<<8)|(int16_t)RxMessage.Data[4])/32768.0f * 16.0f;
 //				imu_Rx_data[0][3] = ((int16_t)(RxMessage.Data[7]<<8)|(int16_t)RxMessage.Data[6])/32768.0f * 16.0f;
 //				break;
