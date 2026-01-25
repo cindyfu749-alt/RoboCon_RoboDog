@@ -201,7 +201,7 @@ void RC_DMA_IRQHandler(void)
 }
 
 //imu陀螺仪CAN接收中断----------------------------------------------------  
-void CAN_RX_IRQHandler(void)//不知道要干嘛，先不动这个函数
+void CAN_RX_IRQHandler(void)
 {
 //	uint16_t imu_Rx_data[3][3];
 	/*从邮箱中读出报文*/

@@ -17,25 +17,34 @@ typedef struct {
     int step_rate;               // 步频
     int time_currently;          // 步态内当前时间
     int time_turn;               // 转向内当前时间
+    int tim_t;               // 延时等待
     int step_turn_flag;          // 步幅/转向切换标志
-    
+
     // 电机控制
     int motor_send_id;           // 正在发送的电机 ID
     int motor_feedback_id;       // 最近接收反馈的电机 ID
+
+    //看門狗
+    int watch_self;
+    uint8_t motor_stop_flag;     // 电机停止请求标志（从中断驱动，在主循环处理）
+    uint8_t init_done_flag;      // 初始化完成标志（防止重复初始化）
     
     // 状态标志
-    uint8_t is_initialized;      // 初始化完成标志
     uint8_t is_running;          // 运动中标志
     int dog_init_time;           // 初始化计时
+    int Dog_Iinit;          // 狗初始化站立时间
     
     // 跳跃相关
     int jump_flag;               // 跳跃标志
     int jump_time;               // 跳跃计时
+    int jump_flag2;               // 跳跃标志
+    int jump_time2;               // 跳跃计时
     int backflip_flag;           // 空翻标志
     int backflip_time;           // 空翻计时
+    int dog_rest_flag;            // 跳跃计时
     
     // 调试标志
-    uint8_t print_flag;          // 打印调试信息标志
+    uint8_t printf_flag;          // 打印调试信息标志
     
 } dog_state_t;
 
@@ -81,5 +90,12 @@ void control_task_set_running(uint8_t enable);
  * @return 无
  */
 void control_task_set_step_rate(int rate);
+
+/**
+ * @brief 电机看门狗控制函数（在1ms定时器中调用）
+ * @details 在中断中设置标志位，避免阻塞操作
+ * @return 无
+ */
+void Motor_Key(void);
 
 #endif /* __CONTROL_TASK_H */

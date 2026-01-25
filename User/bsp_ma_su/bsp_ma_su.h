@@ -6,22 +6,6 @@
 #include  "GO-M8010-6.h"
 #include "pid.h"
 #include "system_data.h"
-/* ==================== PID 参数表 ==================== */
-
-/** PID 参数表：[速度Kp, 速度Ki, 速度Kd] */
-extern const fp32 motor_speed_pid_data[10][3];
-
-/** PID 参数表：[位置Kp, 位置Ki, 位置Kd] */
-extern const fp32 motor_rang_pid_data[10][3];
-
-/** 电机控制和反馈数据数组 */
-extern MOTOR_send motor_control_data[10];
-extern MOTOR_recv motor_feedback_data[10];
-
-/** PID 输出数组 */
-extern float motor_speed_pid_out[10];
-extern float motor_angle_pid_out[10];
-
 /* ==================== 结构体定义==================== */
 typedef struct
 {
@@ -44,9 +28,10 @@ void Pos_speed_control(float feedback_pos,float set_pos,float pos_speed);
 void counter_motion(float X,float Y,float *range1, float *range2);
 void foot_track (float *X,float *Y,int Tm,int time_currently,int turn_Tm,int time_turn,int move_mode,int direction_mode);
 void jump_backflip(int backflip_time);
+void motor_key_control(void);
+void motor_set_control_interval(uint32_t interval_ms);
+uint8_t motor_get_running_state(void);
 static inline int _clamp_motor_id(int id){ if (id < 1) return 1; if (id > Mo_Count) return Mo_Count; return id; };
 ////////////////////////////////////////int Dog_Init(int motor_id);
-extern float rang__2, rang__3, rang__4, rang__5, rang__6, rang__7, rang__8, rang__9;
-
 #endif /* _MA_SU */
 
