@@ -21,7 +21,7 @@ typedef struct {
     int step_turn_flag;          // 步幅/转向切换标志
 
     // 电机控制
-    int motor_send_id;           // 正在发送的电机 ID
+    int Motor_send_ID;           // 正在发送的电机 ID
     int motor_feedback_id;       // 最近接收反馈的电机 ID
 
     //看門狗
