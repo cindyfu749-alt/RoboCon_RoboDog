@@ -13,8 +13,8 @@
 #include "stm32f4xx.h"
 #include "struct_typedef.h"
 #include "GO-M8010-6.h"
-#define Mo_Count 9  ///< 电机数量
-extern int printf_flag ;//可打印标志---2023-6-22
+#include "bsp_can.h"
+#define Mo_Count 10 
 /* ==================== 电机数据结构 ==================== */
 
 /** 
@@ -23,7 +23,7 @@ extern int printf_flag ;//可打印标志---2023-6-22
  */
 extern MOTOR_send motor_control_data[10];        ///< 电机控制命令
 extern MOTOR_recv motor_feedback_data[10];        ///< 电机反馈数据
-extern MOTOR_send motor_ctrl_clear;      ///< 电机停止命令
+extern MOTOR_send motor_control_clear;      ///< 电机停止命令
 
 /* ==================== PID 输出数据 ==================== */
 
@@ -32,16 +32,18 @@ extern float motor_angle_pid_out[10];    ///< 位置环 PID 输出 (1-9)
 extern float imu_z_pid_out;              ///< IMU Z 轴 PID 输出
 
 /* ==================== PID 结构体 ==================== */
-extern pid_type_def Motor_speed_PID[Mo_Count + 1]; //电机速度PID
-extern pid_type_def Motor_rang_PID[Mo_Count + 1];  //电机角度PID
+extern pid_type_def Motor_speed_PID[Mo_Count]; //电机速度PID
+extern pid_type_def Motor_rang_PID[Mo_Count];  //电机角度PID
 extern pid_type_def imu_Z_PID;
 
 /* ==================== KP Ki KD=========== */
-extern const fp32 motor_speed_pid_data[3];  ///< 速度环 PID 参数
-extern const fp32 motor_rang_pid_data[3];  ///< 位置环 PID
+/** PID 参数表：[速度Kp, 速度Ki, 速度Kd] */
+extern const fp32 motor_speed_pid_data[10][3];
+/** PID 参数表：[位置Kp, 位置Ki, 位置Kd] */
+extern const fp32 motor_rang_pid_data[10][3];
 
 /* ==================== 步态数据结构 ==================== */
-
+extern float rang__2, rang__3, rang__4, rang__5, rang__6, rang__7, rang__8, rang__9;  //各电机位置
 /**
  * @brief 足端轨迹数据
  */
@@ -51,7 +53,7 @@ typedef struct {
 } foot_track_t;
 
 /** 全局足端轨迹（4 条腿） */
-extern foot_track_t foot_track[4];
+extern foot_track_t g_foot_track[4];
 
 /**
  * @brief 关节角度数据
@@ -75,34 +77,20 @@ extern int Motor_Send_ID;                ///< 正在发送的电机 ID
 extern int Motor_feedback_ID;            ///< 最近接收的电机反馈 ID
 extern uint8_t motor_rx_flag;            ///< 电机接收标志
 
+/* ==================== CAN_TX/RX_Msg ==================== */
+extern CanTxMsg TxMessage;       //发送缓冲区
+extern CanRxMsg RxMessage;		//接收缓冲区
+
 /* ==================== RC 遥控 ==================== */
 
 extern uint8_t RC[18];                     ///< RC 原始数据缓冲
 extern rc rc_rc;                           ///< 解析后的 RC 数据
 
-/* ==================== 标志位 ==================== */
-
-extern uint8_t print_flag;              ///< 打印标志
-extern int step;                         ///< 步态计数器
-extern int step_turn_flag;               ///< 步幅/转向标志
-extern int dog_jump_flag;                ///< 跳跃标志
-extern int dog_jump_time;    
-extern int dog_jump_time_2 ;
-extern int dog_jump_flag_2 ;
-extern int dog_rest_flag;            ///< 跳跃计时
-extern int backflip_flag;                ///< 空翻标志
-extern int backflip_time;     ///< 空翻计时
-extern int step_turn_flag;           
+/* ==================== 标志位 ==================== */      
 extern float ttl;
 extern int Dog_Iinit ;
 extern int Dog_flag ;
-
-
 extern float Motor_set_Pos;                ///< 目标位置
-
-/* ==================== CAN_TX/RX_Msg ==================== */
-extern CanTxMsg TxMessage;//发送缓冲区
-extern CanRxMsg RxMessage;		//接收缓冲区
 
 /* ==================== 传感器数据 ==================== */
 

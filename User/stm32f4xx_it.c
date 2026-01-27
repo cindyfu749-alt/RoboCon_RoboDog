@@ -40,7 +40,7 @@
 #include "./can/bsp_can.h"
 #include "bsp_imu.h"
 #include "system_data.h"
-
+#include "control_task.h"
 /** @addtogroup Template_Project
   * @{
   */
@@ -88,7 +88,7 @@ int Motor_feedback_ID = 1;
 int tim_flag_aa = 0;
 int RC_RX_flag = 0;
 //狗初始化站立起来时间
-int Dog_Iinit = 0;
+
 int Dog_flag = 1;
 
 
@@ -112,19 +112,6 @@ int printf_flag = 0;//可打印标志
 
 //跳----------------------------------------------------------------------
 	//--跳--时间------------
-	int dog_jump_time = 0;
-	//跳开始计时标志
-	int dog_jump_flag = 0;
-	//--跳--时间------------
-	int dog_jump_time_2 = 0;
-	//跳开始计时标志
-	int dog_jump_flag_2 = 0;
-	//空翻开始计时标志
-	int backflip_flag = 0;
-	//空翻计时
-	int backflip_time = 0;
-//---步幅转向标志--------------------------------------------------------
-int step_turn_flag = 1;
 //---步频--------------------------------------------------------------------
 		//跷跷板步速
 		int step_speed_high = 300;
@@ -183,9 +170,10 @@ void Motor_DMA_IRQHandler (void)
 {
 	//判断CRC把数据写入接收结构体数据赋值
 	extract_data(&motor_feedback_data);
-	Motor_feedback_ID = motor_feedback_data->motor_id;
+  dog_state_t *state = control_task_get_state();
+  state->motor_feedback_id = Motor_feedback_ID;
 	int id = _clamp_motor_id(Motor_feedback_ID);
-			step = id;
+			state->step = id;
 			motor_feedback_data[id].T = motor_feedback_data->T;
 			motor_feedback_data[id].W = motor_feedback_data->W;
 			motor_feedback_data[id].Pos = motor_feedback_data->Pos;
@@ -201,7 +189,7 @@ void RC_DMA_IRQHandler(void)
 }
 
 //imu陀螺仪CAN接收中断----------------------------------------------------  
-void CAN_RX_IRQHandler(void)//不知道要干嘛，先不动这个函数
+void CAN_RX_IRQHandler(void)
 {
 //	uint16_t imu_Rx_data[3][3];
 	/*从邮箱中读出报文*/
