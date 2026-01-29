@@ -169,17 +169,17 @@ void GENERAL_TIM_IRQHandler (void)
 void Motor_DMA_IRQHandler (void)
 {
 	//判断CRC把数据写入接收结构体数据赋值
-	extract_data(&motor_feedback_data);
+	extract_data(&motor_feedback_date_buffer);
   dog_state_t *state = control_task_get_state();
-  state->motor_feedback_id = Motor_feedback_ID;
+  Motor_feedback_ID = state->motor_feedback_id; //接收最近反馈的电机ID.似乎多余？上条语句已经接收状态
 	int id = _clamp_motor_id(Motor_feedback_ID);
 			state->step = id;
-			motor_feedback_data[id].T = motor_feedback_data->T;
-			motor_feedback_data[id].W = motor_feedback_data->W;
-			motor_feedback_data[id].Pos = motor_feedback_data->Pos;
+			motor_feedback_data[id].T = motor_feedback_date_buffer.T;
+			motor_feedback_data[id].W = motor_feedback_date_buffer.W;
+			motor_feedback_data[id].Pos = motor_feedback_date_buffer.Pos;
 	DMA_ClearITPendingBit(DEBUG_USART_DMA_STREAM , DMA_IT_TCIF1); 
-	//	printf("%d\n",motor_feedback_data.motor_id);
-    //	printf("%d\n",motor_feedback_data.motor_recv_data.mode.id);
+	//	printf("%d\n",motor_feedback_date_buffer.motor_id);
+    //	printf("%d\n",motor_feedback_date_buffer.motor_recv_data.mode.id);
 }
 
 void RC_DMA_IRQHandler(void)

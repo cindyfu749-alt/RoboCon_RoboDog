@@ -30,7 +30,7 @@ void USART6_DMA_Config(void)
   /*设置DMA源：串口数据寄存器地址*/
   DMA_InitStructure.DMA_PeripheralBaseAddr = DEBUG_USART_DR_BASE;	 
   /*内存地址(要传输的变量的指针)*/
-  DMA_InitStructure.DMA_Memory0BaseAddr = (u32)(&motor_feedback_data);
+  DMA_InitStructure.DMA_Memory0BaseAddr = (u32)(&motor_feedback_date_buffer);
   /*方向：从外设到内存*/		
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;	
   /*传输大小DMA_BufferSize=SENDBUFF_SIZE  数据的个数*/	

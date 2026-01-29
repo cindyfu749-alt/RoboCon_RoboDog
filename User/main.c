@@ -17,7 +17,7 @@
 //以全局变量声明电机控制结构体和电机数据结构体，方便在故障时通过debug查看变量值
 MOTOR_send motor_control_clear; //电机停止
 // MDA 存储数据后，在中断中用于电机 ID 判断（临时缓冲）
-MOTOR_recv motor_feedback_data;
+MOTOR_recv motor_feedback_date_buffer;
 
 // 全局数组：motor_control_data[1..Mo_Count], motor_feedback_data_arr[1..Mo_Count]
 MOTOR_send motor_control_data[Mo_Count];
